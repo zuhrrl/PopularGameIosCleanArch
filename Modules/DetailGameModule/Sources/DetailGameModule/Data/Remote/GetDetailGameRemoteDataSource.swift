@@ -20,8 +20,11 @@ public struct GetDetailGameRemoteDataSource: DataSource {
   }
   
   public func execute(request: Any?) -> AnyPublisher<DetailGameResponse, Error> {
+    let id = request as! Int
+    debugPrint("FETCH DETAIL GAME  FROM REMOTE\(id)")
+
     return Future<DetailGameResponse, Error> { completion in
-      if let url = URL(string: endpoint) {
+      if let url = URL(string: "\(endpoint)/\(id)") {
         AF.request(url)
           .validate()
           .responseDecodable(of: DetailGameResponse.self) { response in

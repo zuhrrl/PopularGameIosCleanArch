@@ -1,15 +1,16 @@
 //
 //  File.swift
-//
+//  
 //
 //  Created by WDT on 20/08/24.
 //
+
 import Foundation
 import Core
 import Combine
 import RealmSwift
 
-public struct GetHomeLocalDataSource: LocaleDataSource {
+public struct GetDetailGameLocalDataSource: LocaleDataSource {
   
   public typealias Request = Any
   
@@ -80,3 +81,4 @@ public struct GetHomeLocalDataSource: LocaleDataSource {
     fatalError()
   }
 }
+

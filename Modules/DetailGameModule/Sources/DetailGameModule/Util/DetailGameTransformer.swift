@@ -17,10 +17,11 @@ public struct DetailGameTransformer: Mapper {
   
   // Convert API response to internal entity
   public func toEntity(response: DetailGameResponse) -> DetailGameEntity {
+    let genres = response.genres.map { $0.name }.joined(separator: ",")
     return DetailGameEntity(
       id: response.id,
       title: response.name,
-      genres:"test", // Assuming genres is an array
+      genres: genres, // Assuming genres is an array
       rating: response.rating,
       description: response.descriptionRaw,
       backgroundImage: response.backgroundImage,

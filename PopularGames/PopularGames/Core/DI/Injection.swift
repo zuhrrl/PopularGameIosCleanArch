@@ -30,11 +30,13 @@ final class Injection: NSObject {
   }
   
   func provideDetailUsecase<U: UseCase>() -> U where U.Request == Any, U.Response == DetailGameEntity {
-    let remote = GetDetailGameRemoteDataSource(endpoint: "https://rawg-mirror.vercel.app/api/games/3498")
+    let locale = GetDetailGameLocalDataSource(realm: realm!)
+    let remote = GetDetailGameRemoteDataSource(endpoint: "https://rawg-mirror.vercel.app/api/games")
     let mapper = DetailGameTransformer()
     
     let repository = GetDetailGameRepository(
       remoteDataSource: remote,
+      localDataSource: locale,
       mapper: mapper)
     
     return Interactor(repository: repository) as! U
@@ -52,7 +54,7 @@ final class Injection: NSObject {
     let locale = GetHomeLocalDataSource(realm: realm!)
     let mapper = HomeRealmTransformer()
     
-    let repository = GetAddFavoriteGameRepository(localDataSource: locale, mapper: mapper)
+    let repository = GetDeleteFavoriteGameRepository(localDataSource: locale, mapper: mapper)
     return Interactor(repository: repository) as! U
   }
   

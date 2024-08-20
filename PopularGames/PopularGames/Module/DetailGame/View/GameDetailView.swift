@@ -10,7 +10,9 @@ import Core
 import DetailGameModule
 
 struct GameDetailView: View {
-  @StateObject var presenter: GetDetailGamePresenter<Any, DetailGameEntity, Interactor<Any, DetailGameEntity, GetDetailGameRepository< GetDetailGameRemoteDataSource, DetailGameTransformer>>>
+  let gameId: Int
+  @StateObject var presenter: GetDetailGamePresenter<Any, DetailGameEntity, Interactor<Any, DetailGameEntity, GetDetailGameRepository<GetDetailGameLocalDataSource, GetDetailGameRemoteDataSource, DetailGameTransformer>>
+  >
   var body: some View {
     let game = presenter.detail
     NavigationView {
@@ -19,23 +21,33 @@ struct GameDetailView: View {
           Spacer()
           VStack {
             Text("Loading...")
-              .foregroundColor(Color(uiColor: .primary))
+              .foregroundColor(Color(uiColor: .white))
             ProgressView()
-              .tint(.primary)
+              .tint(.white)
           }
           Spacer()
-        }
+        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+          .background {
+            Color.init(uiColor: .primary)
+              .ignoresSafeArea()
+          }
+        
       } else if presenter.detail == nil {
         HStack {
           Spacer()
           VStack {
             Text("Loading...")
-              .foregroundColor(Color(uiColor: .text))
+              .foregroundColor(Color(uiColor: .white))
             ProgressView()
               .tint(.white)
           }
           Spacer()
-        }
+        } .frame(maxWidth: .infinity, maxHeight: .infinity)
+          .background {
+            Color.init(uiColor: .primary)
+              .ignoresSafeArea()
+          }
+        
       } else {
         ScrollView {
           VStack(alignment: .leading){
@@ -53,7 +65,7 @@ struct GameDetailView: View {
                 .font(.system(size: 20))
                 .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
               Spacer()
-              Image(systemName: false ? "heart.fill" :  "heart")
+              Image(systemName: game!.isFavorite ? "heart.fill" :  "heart")
                 .resizable()
                 .frame(width: 25.0, height: 25.0)
                 .padding(EdgeInsets(top: 0.0, leading: 0.0, bottom: 0.0, trailing: 20.0)
@@ -61,7 +73,7 @@ struct GameDetailView: View {
                 .foregroundColor(.white)
                 .onTapGesture {
                   debugPrint("ONTAP FAVORITE DETAIL VIEW")
-                  //                presenter.addToFavorite(item: game)
+                  presenter.addToFavorite(request: game)
                 }
             }
             Text("\(game!.title)")
@@ -99,8 +111,7 @@ struct GameDetailView: View {
       }
     }
     .onAppear {
-      debugPrint("FETCH DETAIL GAME")
-      presenter.getDetail(request: nil)
+      presenter.getDetail(request: gameId)
     }
   }
 }

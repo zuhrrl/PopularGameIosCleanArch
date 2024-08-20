@@ -11,7 +11,7 @@ import Core
 public struct HomeRealmTransformer: Mapper {
  
   
-  public typealias Response = HomeGameEntityRealm
+  public typealias Response = GameEntityRealm
   public typealias Entity = GameEntity
   public typealias Domain = GameEntity
   
@@ -19,7 +19,7 @@ public struct HomeRealmTransformer: Mapper {
   public init() {}
   
   // Convert API response to internal entity
-  public func toEntity(response: HomeGameEntityRealm) -> GameEntity {
+  public func toEntity(response: GameEntityRealm) -> GameEntity {
     return GameEntity(id: response.id, title: response.title, genres: "test", rating: response.rating, description: response.description, backgroundImage: response.backgroundImage, releasedDate: response.releasedDate, isFavorite: false)
   }
   

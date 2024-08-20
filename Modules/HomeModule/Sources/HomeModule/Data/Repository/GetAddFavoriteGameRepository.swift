@@ -13,8 +13,8 @@ public struct GetAddFavoriteGameRepository<
   HomeLocalDataSource: LocaleDataSource,
   Transformer: Mapper>: Repository
 where
-GetHomeLocalDataSource.Response == HomeGameEntityRealm,
-Transformer.Response == HomeGameEntityRealm,
+GetHomeLocalDataSource.Response == GameEntityRealm,
+Transformer.Response == GameEntityRealm,
 Transformer.Entity == GameEntity,
 Transformer.Domain == GameEntity {
   

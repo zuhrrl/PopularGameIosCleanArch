@@ -12,8 +12,8 @@ public struct GetDeleteFavoriteGameRepository<
   DeleteLocalDataSource: LocaleDataSource,
   Transformer: Mapper>: Repository
 where
-DeleteLocalDataSource.Response == HomeGameEntityRealm,
-Transformer.Response == HomeGameEntityRealm,
+DeleteLocalDataSource.Response == GameEntityRealm,
+Transformer.Response == GameEntityRealm,
 Transformer.Entity == GameEntity,
 Transformer.Domain == GameEntity {
   

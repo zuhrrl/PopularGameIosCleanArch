@@ -11,7 +11,8 @@ import HomeModule
 
 struct HomeView: View {
   @ObservedObject var presenter: HomePresenter<Any, GameEntity, Interactor<Any, [GameEntity], GetPopularGameRepository<GetHomeLocalDataSource, GetPopularGameRemoteDataSource, GameTransformer>>,
-                                               Interactor<Any, Bool, GetAddFavoriteGameRepository<GetHomeLocalDataSource, HomeRealmTransformer>>
+                                               Interactor<Any, Bool, GetAddFavoriteGameRepository<GetHomeLocalDataSource, HomeRealmTransformer>>,
+                                               Interactor<Any, Bool, GetDeleteFavoriteGameRepository<GetHomeLocalDataSource, HomeRealmTransformer>>
                                                
 
   >
@@ -41,7 +42,7 @@ struct HomeView: View {
         List(presenter.list, id: \.id) {  item in
           ItemCardGame(game: item, isFavorite:  item.isFavorite, onTapFavorite: {
             debugPrint("ON TAP FAVORITE")
-            let itemToAdd = HomeGameEntityRealm()
+            let itemToAdd = GameEntityRealm()
             itemToAdd.id = item.id
             itemToAdd.title = item.title
             presenter.addToFavorite(request: itemToAdd)
@@ -52,7 +53,7 @@ struct HomeView: View {
             presenter.selectedGame = item.id
           }
           .overlay {
-            NavigationLink(destination: HomeRouter().makeDetailGame(), tag: item.id, selection: $presenter.selectedGame) {
+            NavigationLink(destination: HomeRouter().makeDetailGame(gameId: item.id), tag: item.id, selection: $presenter.selectedGame) {
               EmptyView().frame(height: 0)
             }.opacity(0)
           }

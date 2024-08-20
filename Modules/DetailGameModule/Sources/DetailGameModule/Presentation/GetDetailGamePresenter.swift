@@ -35,6 +35,7 @@ public class GetDetailGamePresenter<Request, Response, Interactor: UseCase>: Pre
   }
   
   public func getDetail(request: DetailRequest?) -> Detail {
+    
     isLoading = true
     _useCase.execute(request: request)
       .receive(on: RunLoop.main)
@@ -54,11 +55,31 @@ public class GetDetailGamePresenter<Request, Response, Interactor: UseCase>: Pre
   }
   
   public func deleteFavorite(request: DeleteFavoriteRequest?) {
-    
+//    self.deleteFavoriteUsecase.execute(request: request as! DeleteFavoriteUsecase.Request)
+//      .receive(on: RunLoop.main)
+//      .sink(receiveCompletion: { completion in
+//        switch completion {
+//        case .failure(let error):
+//          self.errorMessage = error.localizedDescription
+//          self.isError = true
+//          self.isLoading = false
+//        case .finished:
+//          self.isLoading = false
+//        }
+//      }, receiveValue: { _ in })
+//      .store(in: &cancellables)
   }
   
   public func addToFavorite(request: AddFavoriteRequest?) {
-    
+    isLoading = true
+    let item = self.detail as! DetailGameEntity
+    if item.isFavorite {
+      debugPrint("TRYING TO DELETE GAME: \(item.id)")
+      deleteFavorite(request: request)
+     
+      isLoading = false
+      return
+    }
   }
   
 }

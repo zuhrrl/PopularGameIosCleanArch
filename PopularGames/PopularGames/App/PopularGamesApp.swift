@@ -19,7 +19,7 @@ let deleteFavoriteUsecase: Interactor<Any, Bool, GetDeleteFavoriteGameRepository
 
 @main
 struct PopularGamesApp: App {
-  let homePresenter = HomePresenter(useCase: homeUsecase, addFavoriteUsecase: addFavoriteUseCase)
+  let homePresenter = HomePresenter(useCase: homeUsecase, addFavoriteUsecase: addFavoriteUseCase, deleteFavoriteUsecase: deleteFavoriteUsecase)
   var body: some Scene {
     WindowGroup {
       ContentView()
