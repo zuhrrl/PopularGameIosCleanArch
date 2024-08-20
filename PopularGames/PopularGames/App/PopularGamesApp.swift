@@ -11,11 +11,13 @@ import HomeModule
 
 let injection = Injection()
 
-let homeUsecase: Interactor<Any, [GameEntity], GetPopularGameRepository<GetPopularGameRemoteDataSource, GameTransformer>> = injection.provideHomeUsecase()
+let homeUsecase: Interactor<Any, [GameEntity], GetPopularGameRepository<GetHomeLocalDataSource,GetPopularGameRemoteDataSource, GameTransformer>> = injection.provideHomeUsecase()
+
+let addFavoriteUseCase: Interactor<Any, Bool, GetAddFavoriteGameRepository<GetHomeLocalDataSource, HomeRealmTransformer>> = injection.provideAddFavoriteUsecase()
 
 @main
 struct PopularGamesApp: App {
-  let homePresenter = HomePresenter(useCase: homeUsecase)
+  let homePresenter = HomePresenter(useCase: homeUsecase, addFavoriteUsecase: addFavoriteUseCase)
   var body: some Scene {
     WindowGroup {
       ContentView()
