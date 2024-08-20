@@ -43,12 +43,12 @@ struct HomeView: View {
           .listRowBackground(Color.clear) // Change Row Color
           .listRowSeparator(.hidden)
           .onTapGesture {
-//            presenter.selectedGame = item.id
+            presenter.selectedGame = item.id
           }
           .overlay {
-//            NavigationLink(destination: presenter.gameDetailView(gameEntity: item), tag: item.id, selection: $presenter.selectedGame) {
-//              EmptyView().frame(height: 0)
-//            }.opacity(0)
+            NavigationLink(destination: HomeRouter().makeDetailGame(), tag: item.id, selection: $presenter.selectedGame) {
+              EmptyView().frame(height: 0)
+            }.opacity(0)
           }
         }.listStyle(.plain) //Change ListStyle
           .scrollContentBackground(.hidden)

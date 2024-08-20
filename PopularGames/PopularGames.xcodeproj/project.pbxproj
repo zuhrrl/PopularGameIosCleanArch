@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3A3BD3AF2C744ED800F56ABA /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 3A3BD3AE2C744ED800F56ABA /* Core */; };
 		3A3BD3B22C74507900F56ABA /* HomeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 3A3BD3B12C74507900F56ABA /* HomeModule */; };
+		3A3BD3BB2C74797A00F56ABA /* DetailGameModule in Frameworks */ = {isa = PBXBuildFile; productRef = 3A3BD3BA2C74797A00F56ABA /* DetailGameModule */; };
 		3A84A1C72C552EE7001751EF /* FavoriteGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84A1C62C552EE7001751EF /* FavoriteGameView.swift */; };
 		3A84A1C92C552F5A001751EF /* ItemFavoriteGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84A1C82C552F5A001751EF /* ItemFavoriteGame.swift */; };
 		3AC7F1FE2C6D25B300238F7C /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3AC7F1FD2C6D25B300238F7C /* Alamofire */; };
@@ -98,6 +99,7 @@
 				3A3BD3B22C74507900F56ABA /* HomeModule in Frameworks */,
 				3AC7F1FE2C6D25B300238F7C /* Alamofire in Frameworks */,
 				3A3BD3AF2C744ED800F56ABA /* Core in Frameworks */,
+				3A3BD3BB2C74797A00F56ABA /* DetailGameModule in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,6 +370,7 @@
 				3AC7F1FF2C6D25CA00238F7C /* RealmSwift */,
 				3A3BD3AE2C744ED800F56ABA /* Core */,
 				3A3BD3B12C74507900F56ABA /* HomeModule */,
+				3A3BD3BA2C74797A00F56ABA /* DetailGameModule */,
 			);
 			productName = PopularGames;
 			productReference = 3AFA619B2C4CD79D00F6D84C /* PopularGames.app */;
@@ -446,6 +449,7 @@
 				3A2FDC782C6D20D900C2C1A3 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				3A3BD3AD2C744ECD00F56ABA /* XCRemoteSwiftPackageReference "Core" */,
 				3A3BD3B02C744EF600F56ABA /* XCLocalSwiftPackageReference "../Modules/HomeModule" */,
+				3A3BD3B92C74797100F56ABA /* XCLocalSwiftPackageReference "../Modules/DetailGameModule" */,
 			);
 			productRefGroup = 3AFA619C2C4CD79D00F6D84C /* Products */;
 			projectDirPath = "";
@@ -838,6 +842,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../Modules/HomeModule;
 		};
+		3A3BD3B92C74797100F56ABA /* XCLocalSwiftPackageReference "../Modules/DetailGameModule" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Modules/DetailGameModule;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -877,6 +885,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3A3BD3B02C744EF600F56ABA /* XCLocalSwiftPackageReference "../Modules/HomeModule" */;
 			productName = HomeModule;
+		};
+		3A3BD3BA2C74797A00F56ABA /* DetailGameModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3A3BD3B92C74797100F56ABA /* XCLocalSwiftPackageReference "../Modules/DetailGameModule" */;
+			productName = DetailGameModule;
 		};
 		3AC7F1FD2C6D25B300238F7C /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

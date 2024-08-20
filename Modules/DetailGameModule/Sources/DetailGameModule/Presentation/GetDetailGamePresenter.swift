@@ -10,9 +10,9 @@ import Combine
 import Core
 import SwiftUI
 
-public class HomePresenter<Request, Response, Interactor: UseCase>: Presenter, ObservableObject where Interactor.Request == Request, Interactor.Response == [Response] {
+public class GetDetailGamePresenter<Request, Response, Interactor: UseCase>: Presenter, ObservableObject where Interactor.Request == Request, Interactor.Response == Response {
   
-  public typealias DetailRequest = Any
+  public typealias DetailRequest = Request
   public typealias DeleteFavoriteRequest = Any
   public typealias AddFavoriteRequest = Any
   public typealias Detail = Any
@@ -20,7 +20,7 @@ public class HomePresenter<Request, Response, Interactor: UseCase>: Presenter, O
   private var cancellables: Set<AnyCancellable> = []
   private let _useCase: Interactor
   
-  @Published public var list: [Response] = []
+  @Published public var detail: Response?
   @Published public var errorMessage: String = ""
   @Published public var isLoading: Bool = false
   @Published public var isError: Bool = false
@@ -31,6 +31,10 @@ public class HomePresenter<Request, Response, Interactor: UseCase>: Presenter, O
   }
   
   public func getList(request: Request?) {
+    
+  }
+  
+  public func getDetail(request: DetailRequest?) -> Detail {
     isLoading = true
     _useCase.execute(request: request)
       .receive(on: RunLoop.main)
@@ -43,14 +47,10 @@ public class HomePresenter<Request, Response, Interactor: UseCase>: Presenter, O
         case .finished:
           self.isLoading = false
         }
-      }, receiveValue: { list in
-        self.list = list
+      }, receiveValue: { self.detail = $0
       })
       .store(in: &cancellables)
-  }
-  
-  public func getDetail(request: DetailRequest?) -> Detail {
-    return []
+    return detail
   }
   
   public func deleteFavorite(request: DeleteFavoriteRequest?) {

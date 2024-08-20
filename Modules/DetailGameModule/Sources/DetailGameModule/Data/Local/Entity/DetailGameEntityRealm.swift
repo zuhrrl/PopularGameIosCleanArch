@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-public class GameEntityRealm: Object {
+public class DetailGameEntityRealm: Object {
   
   @objc dynamic var id: Int = 0
   @objc dynamic var title: String = ""

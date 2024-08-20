@@ -9,6 +9,7 @@ import Foundation
 import RealmSwift
 import Core
 import HomeModule
+import DetailGameModule
 
 final class Injection: NSObject {
   
@@ -19,6 +20,17 @@ final class Injection: NSObject {
     let mapper = GameTransformer()
     
     let repository = GetPopularGameRepository(
+      remoteDataSource: remote,
+      mapper: mapper)
+    
+    return Interactor(repository: repository) as! U
+  }
+  
+  func provideDetailUsecase<U: UseCase>() -> U where U.Request == Any, U.Response == DetailGameEntity {
+    let remote = GetDetailGameRemoteDataSource(endpoint: "https://rawg-mirror.vercel.app/api/games/3498")
+    let mapper = DetailGameTransformer()
+    
+    let repository = GetDetailGameRepository(
       remoteDataSource: remote,
       mapper: mapper)
     
