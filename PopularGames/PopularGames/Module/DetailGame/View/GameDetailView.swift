@@ -11,7 +11,8 @@ import DetailGameModule
 
 struct GameDetailView: View {
   let gameId: Int
-  @StateObject var presenter: GetDetailGamePresenter<Any, DetailGameEntity, Interactor<Any, DetailGameEntity, GetDetailGameRepository<GetDetailGameLocalDataSource, GetDetailGameRemoteDataSource, DetailGameTransformer>>
+  @StateObject var presenter: GetDetailGamePresenter<Any, DetailGameEntity, Interactor<Any, DetailGameEntity, GetDetailGameRepository<GetDetailGameLocalDataSource, GetDetailGameRemoteDataSource, DetailGameTransformer>>,
+      Interactor<Any, Bool, GetDeleteFavoriteGameRepository<GetDetailGameLocalDataSource, DetailRealmTransformer>>
   >
   var body: some View {
     let game = presenter.detail
@@ -73,7 +74,11 @@ struct GameDetailView: View {
                 .foregroundColor(.white)
                 .onTapGesture {
                   debugPrint("ONTAP FAVORITE DETAIL VIEW")
-                  presenter.addToFavorite(request: game)
+                  let itemToDelete = GameEntityRealm()
+                  itemToDelete.id = game!.id
+                  itemToDelete.title = game!.title
+
+                  presenter.addToFavorite(request: itemToDelete)
                 }
             }
             Text("\(game!.title)")

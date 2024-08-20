@@ -76,6 +76,13 @@ public class HomePresenter<Request, Response, Interactor: UseCase, AddFavoriteUs
       .store(in: &cancellables)
   }
   
+  /**
+   * Halo mas admin saya zuhrul, ini saya mengalami kesulitan tapi ga pengen post di forum saya note aja disni
+   * Sebelumnya fiture addToFavorite ini sebelum apply modular tidak panjang seperti dibawah ini
+   * Saya harus cast as sebagai GameEntity dulu karena generic Response tidak bisa dapet id contoh Response.id ga bisa kan
+   * nah jadi harus saya cast, gimana ya biar ga terlalu panjang gini saya jadi males bikinya, sama terlalu lama puyeng berjam
+   * jam cuman buat kaya gini doang
+   */
   public func addToFavorite(request: AddFavoriteRequest?) {
     isLoading = true
     let index = self.list.firstIndex(where: {
