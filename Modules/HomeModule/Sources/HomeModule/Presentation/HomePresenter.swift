@@ -10,7 +10,7 @@ import Combine
 import Core
 import SwiftUI
 
-public class HomePresenter<Request, Response, Interactor: UseCase, AppRouter: Core.Router>: Presenter, ObservableObject where Interactor.Request == Request, Interactor.Response == [Response] {
+public class HomePresenter<Request, Response, Interactor: UseCase>: Presenter, ObservableObject where Interactor.Request == Request, Interactor.Response == [Response] {
   
   public typealias DetailRequest = Any
   public typealias DeleteFavoriteRequest = Any
@@ -19,7 +19,6 @@ public class HomePresenter<Request, Response, Interactor: UseCase, AppRouter: Co
   
   private var cancellables: Set<AnyCancellable> = []
   private let _useCase: Interactor
-  private let router: AppRouter
   
   @Published public var list: [Response] = []
   @Published public var errorMessage: String = ""
@@ -27,9 +26,8 @@ public class HomePresenter<Request, Response, Interactor: UseCase, AppRouter: Co
   @Published public var isError: Bool = false
   @Published public var selectedGame: Int? = nil
   
-  public init(useCase: Interactor, router: AppRouter) {
+  public init(useCase: Interactor) {
     _useCase = useCase
-    self.router = router
   }
   
   public func getList(request: Request?) {
@@ -61,10 +59,6 @@ public class HomePresenter<Request, Response, Interactor: UseCase, AppRouter: Co
   
   public func addToFavorite(request: AddFavoriteRequest?) {
     
-  }
-    
-  public func getRouter() -> any Core.Router {
-    return router
   }
   
 }
