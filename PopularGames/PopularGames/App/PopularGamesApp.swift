@@ -15,6 +15,8 @@ let homeUsecase: Interactor<Any, [GameEntity], GetPopularGameRepository<GetHomeL
 
 let addFavoriteUseCase: Interactor<Any, Bool, GetAddFavoriteGameRepository<GetHomeLocalDataSource, HomeRealmTransformer>> = injection.provideAddFavoriteUsecase()
 
+let deleteFavoriteUsecase: Interactor<Any, Bool, GetDeleteFavoriteGameRepository<GetHomeLocalDataSource, HomeRealmTransformer>> = injection.provideDeleteFavoriteUsecase()
+
 @main
 struct PopularGamesApp: App {
   let homePresenter = HomePresenter(useCase: homeUsecase, addFavoriteUsecase: addFavoriteUseCase)

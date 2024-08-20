@@ -4,16 +4,15 @@
 //
 //  Created by WDT on 20/08/24.
 //
-
 import Foundation
 import Core
 import Combine
 
-public struct GetAddFavoriteGameRepository<
-  HomeLocalDataSource: LocaleDataSource,
+public struct GetDeleteFavoriteGameRepository<
+  DeleteLocalDataSource: LocaleDataSource,
   Transformer: Mapper>: Repository
 where
-GetHomeLocalDataSource.Response == HomeGameEntityRealm,
+DeleteLocalDataSource.Response == HomeGameEntityRealm,
 Transformer.Response == HomeGameEntityRealm,
 Transformer.Entity == GameEntity,
 Transformer.Domain == GameEntity {
@@ -21,18 +20,18 @@ Transformer.Domain == GameEntity {
   public typealias Request = Any
   public typealias Response = Bool
   
-  private let localDataSource: HomeLocalDataSource
+  private let localDataSource: DeleteLocalDataSource
   private let mapper: Transformer
   
   public init(
-    localDataSource: HomeLocalDataSource,
+    localDataSource: DeleteLocalDataSource,
     mapper: Transformer) {
       self.localDataSource = localDataSource
       self.mapper = mapper
     }
   
   public func execute(request: Request?) -> AnyPublisher<Bool, any Error> {
-    return localDataSource.add(entity: request as! HomeLocalDataSource.Response)
+    return localDataSource.delete(entity: request as! DeleteLocalDataSource.Response)
       .map {$0}
       .eraseToAnyPublisher()
   }

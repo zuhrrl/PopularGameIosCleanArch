@@ -10,7 +10,11 @@ import Core
 import HomeModule
 
 struct HomeView: View {
-  @ObservedObject var presenter: HomePresenter<Any, GameEntity, Interactor<Any, [GameEntity], GetPopularGameRepository<GetHomeLocalDataSource, GetPopularGameRemoteDataSource, GameTransformer>>, Interactor<Any, Bool, GetAddFavoriteGameRepository<GetHomeLocalDataSource, HomeRealmTransformer>>>
+  @ObservedObject var presenter: HomePresenter<Any, GameEntity, Interactor<Any, [GameEntity], GetPopularGameRepository<GetHomeLocalDataSource, GetPopularGameRemoteDataSource, GameTransformer>>,
+                                               Interactor<Any, Bool, GetAddFavoriteGameRepository<GetHomeLocalDataSource, HomeRealmTransformer>>
+                                               
+
+  >
   var body: some View {
     VStack(alignment: .leading) {
       if presenter.isLoading {
@@ -40,7 +44,7 @@ struct HomeView: View {
             let itemToAdd = HomeGameEntityRealm()
             itemToAdd.id = item.id
             itemToAdd.title = item.title
-            presenter.addToFavorite(request: [itemToAdd])
+            presenter.addToFavorite(request: itemToAdd)
           })
           .listRowBackground(Color.clear) // Change Row Color
           .listRowSeparator(.hidden)
@@ -93,7 +97,3 @@ struct HomeView: View {
     })
   }
 }
-//
-//#Preview {
-//  ContentView()
-//}

@@ -48,6 +48,12 @@ final class Injection: NSObject {
     return Interactor(repository: repository) as! U
   }
   
-  
+  func provideDeleteFavoriteUsecase<U: UseCase>() -> U where U.Request == Any, U.Response == Bool {
+    let locale = GetHomeLocalDataSource(realm: realm!)
+    let mapper = HomeRealmTransformer()
+    
+    let repository = GetAddFavoriteGameRepository(localDataSource: locale, mapper: mapper)
+    return Interactor(repository: repository) as! U
+  }
   
 }

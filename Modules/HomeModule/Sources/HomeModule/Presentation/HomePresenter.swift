@@ -14,13 +14,13 @@ public class HomePresenter<Request, Response, Interactor: UseCase, AddFavoriteUs
   
   public typealias DetailRequest = Request
   public typealias DeleteFavoriteRequest = Any
-  public typealias AddFavoriteRequest = Any
+  public typealias AddFavoriteRequest = HomeGameEntityRealm
   public typealias Detail = Any
   
   private var cancellables: Set<AnyCancellable> = []
   private let _useCase: Interactor
   private let addFavoriteUsecase: AddFavoriteUsecase
-
+  
   
   @Published public var list: [Response] = []
   @Published public var errorMessage: String = ""
@@ -32,6 +32,7 @@ public class HomePresenter<Request, Response, Interactor: UseCase, AddFavoriteUs
     _useCase = useCase
     self.addFavoriteUsecase = addFavoriteUsecase
   }
+
   
   public func getList(request: Request?) {
     isLoading = true
@@ -61,7 +62,24 @@ public class HomePresenter<Request, Response, Interactor: UseCase, AddFavoriteUs
   }
   
   public func addToFavorite(request: AddFavoriteRequest?) {
-    isLoading = true 
+    isLoading = true
+    let index = self.list.firstIndex(where: {
+      let item = $0 as! GameEntity
+      return item.id == request?.id})
+    debugPrint("FOUND GAME INDEX: \(String(describing: index))")
+    
+    var foundItem = self.list[index!] as! GameEntity
+    if foundItem.isFavorite {
+      debugPrint("TRYING TO DELETE GAME: \(foundItem.id)")
+      foundItem.isFavorite = false
+      var updateList = self.list as! [GameEntity]
+      updateList[index!].isFavorite = false
+      self.list = updateList as! [Response]
+      isLoading = false
+      return
+    }
+    
+    
     self.addFavoriteUsecase.execute(request: request as! AddFavoriteUsecase.Request)
       .receive(on: RunLoop.main)
       .sink(receiveCompletion: { completion in

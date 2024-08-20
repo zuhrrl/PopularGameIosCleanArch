@@ -10,7 +10,7 @@ import Core
 import HomeModule
 
 struct ContentView: View {
-  @EnvironmentObject var homePresenter: HomePresenter<Any, GameEntity, Interactor<Any, [GameEntity], GetPopularGameRepository<GetHomeLocalDataSource, GetPopularGameRemoteDataSource, GameTransformer>>, Interactor<Any, Bool, GetAddFavoriteGameRepository< GetHomeLocalDataSource, HomeRealmTransformer>>>
+  @EnvironmentObject var homePresenter: HomePresenter<Any, GameEntity, Interactor<Any, [GameEntity], GetPopularGameRepository< GetHomeLocalDataSource, GetPopularGameRemoteDataSource, GameTransformer>>,Interactor<Any, Bool, GetAddFavoriteGameRepository< GetHomeLocalDataSource, HomeRealmTransformer>>>
   
   var body: some View {
     NavigationStack {
