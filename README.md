@@ -23,5 +23,3 @@ This project is a native iOS application built using SwiftUI, following a clean 
 - Networking with Alamofire
 - Local Database with Realm
 - Clean and maintainable code structure
-
-Update readme
