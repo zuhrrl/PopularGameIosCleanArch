@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import Core
 import DetailGameModule
+import FavoriteGameModule
 
 class HomeRouter {
   func makeDetailGame(gameId: Int) -> some View {
@@ -27,4 +28,13 @@ class HomeRouter {
     
     return GameDetailView(gameId: gameId, presenter: presenter)
   }
+  
+  func makeFavoriteGameView() -> some View {
+    let favoriteGameUsecase: Interactor<Any, [FavoriteGameEntity], GetListFavoriteGameRepository<GetFavoriteGameLocalDataSource, FavoriteRealmTransformer>>
+    = Injection.init().provideFavoriteGameUsecase()
+    
+    let presenter = GetFavoriteGamePresenter(favoriteGameUsecase: favoriteGameUsecase)
+    return FavoriteGameView(presenter: presenter)
+  }
+  
 }

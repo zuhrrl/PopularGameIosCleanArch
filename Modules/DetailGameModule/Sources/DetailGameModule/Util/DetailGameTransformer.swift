@@ -12,16 +12,14 @@ public struct DetailGameTransformer: Mapper {
   public typealias Entity = DetailGameEntity
   public typealias Domain = DetailGameEntity
   
-  // Initializer
   public init() {}
   
-  // Convert API response to internal entity
   public func toEntity(response: DetailGameResponse) -> DetailGameEntity {
     let genres = response.genres.map { $0.name }.joined(separator: ",")
     return DetailGameEntity(
       id: response.id,
       title: response.name,
-      genres: genres, // Assuming genres is an array
+      genres: genres,
       rating: response.rating,
       description: response.descriptionRaw,
       backgroundImage: response.backgroundImage,

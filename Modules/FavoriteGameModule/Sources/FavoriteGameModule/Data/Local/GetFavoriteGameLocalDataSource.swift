@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by WDT on 20/08/24.
 //
@@ -10,7 +10,7 @@ import Core
 import Combine
 import RealmSwift
 
-public struct GetDetailGameLocalDataSource: LocaleDataSource {
+public struct GetFavoriteGameLocalDataSource: LocaleDataSource {
   
   public typealias Request = Any
   
@@ -24,12 +24,15 @@ public struct GetDetailGameLocalDataSource: LocaleDataSource {
   
   public func list(request: Any?) -> AnyPublisher<[GameEntityRealm], Error> {
     return Future<[GameEntityRealm], Error> { completion in
-      let categories: Results<GameEntityRealm> = {
-        self.realm.objects(GameEntityRealm.self)
+      let favorites: Results<GameEntityRealm> = {
+        realm.objects(GameEntityRealm.self)
           .sorted(byKeyPath: "title", ascending: true)
       }()
-      completion(.success(categories.toArray(ofType: GameEntityRealm.self)))
-      
+      if favorites.isEmpty {
+        completion(.success([]))
+        return
+      }
+      completion(.success(favorites.toArray(ofType: GameEntityRealm.self)))
     }.eraseToAnyPublisher()
   }
   

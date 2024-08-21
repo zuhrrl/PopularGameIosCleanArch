@@ -6,7 +6,7 @@
 //
 
 import Foundation
-public struct DetailGameEntity : Equatable, Identifiable {
+public struct FavoriteGameEntity : Equatable, Identifiable {
   public let id: Int
   public let title: String
   public let genres: String

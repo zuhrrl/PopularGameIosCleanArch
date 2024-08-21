@@ -11,6 +11,7 @@
 		3A3BD3C12C74812F00F56ABA /* DetailGameModule in Frameworks */ = {isa = PBXBuildFile; productRef = 3A3BD3C02C74812F00F56ABA /* DetailGameModule */; };
 		3A3BD3C42C748B0F00F56ABA /* HomeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 3A3BD3C32C748B0F00F56ABA /* HomeModule */; };
 		3A3BD3C72C748DB000F56ABA /* HomeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 3A3BD3C62C748DB000F56ABA /* HomeModule */; };
+		3A3BD3CA2C75B78000F56ABA /* FavoriteGameModule in Frameworks */ = {isa = PBXBuildFile; productRef = 3A3BD3C92C75B78000F56ABA /* FavoriteGameModule */; };
 		3A84A1C72C552EE7001751EF /* FavoriteGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84A1C62C552EE7001751EF /* FavoriteGameView.swift */; };
 		3A84A1C92C552F5A001751EF /* ItemFavoriteGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84A1C82C552F5A001751EF /* ItemFavoriteGame.swift */; };
 		3AC7F1FE2C6D25B300238F7C /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3AC7F1FD2C6D25B300238F7C /* Alamofire */; };
@@ -97,6 +98,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AC7F2002C6D25CA00238F7C /* RealmSwift in Frameworks */,
+				3A3BD3CA2C75B78000F56ABA /* FavoriteGameModule in Frameworks */,
 				3AC7F1FE2C6D25B300238F7C /* Alamofire in Frameworks */,
 				3A3BD3C42C748B0F00F56ABA /* HomeModule in Frameworks */,
 				3A3BD3AF2C744ED800F56ABA /* Core in Frameworks */,
@@ -374,6 +376,7 @@
 				3A3BD3C02C74812F00F56ABA /* DetailGameModule */,
 				3A3BD3C32C748B0F00F56ABA /* HomeModule */,
 				3A3BD3C62C748DB000F56ABA /* HomeModule */,
+				3A3BD3C92C75B78000F56ABA /* FavoriteGameModule */,
 			);
 			productName = PopularGames;
 			productReference = 3AFA619B2C4CD79D00F6D84C /* PopularGames.app */;
@@ -453,6 +456,7 @@
 				3A3BD3AD2C744ECD00F56ABA /* XCRemoteSwiftPackageReference "Core" */,
 				3A3BD3BF2C74812F00F56ABA /* XCLocalSwiftPackageReference "../Modules/DetailGameModule" */,
 				3A3BD3C52C748DB000F56ABA /* XCLocalSwiftPackageReference "../Modules/HomeModule" */,
+				3A3BD3C82C75B78000F56ABA /* XCLocalSwiftPackageReference "../Modules/FavoriteGameModule" */,
 			);
 			productRefGroup = 3AFA619C2C4CD79D00F6D84C /* Products */;
 			projectDirPath = "";
@@ -849,6 +853,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../Modules/HomeModule;
 		};
+		3A3BD3C82C75B78000F56ABA /* XCLocalSwiftPackageReference "../Modules/FavoriteGameModule" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Modules/FavoriteGameModule;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -895,6 +903,10 @@
 		3A3BD3C62C748DB000F56ABA /* HomeModule */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = HomeModule;
+		};
+		3A3BD3C92C75B78000F56ABA /* FavoriteGameModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FavoriteGameModule;
 		};
 		3AC7F1FD2C6D25B300238F7C /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

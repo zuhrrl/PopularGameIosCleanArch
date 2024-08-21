@@ -10,6 +10,7 @@ import RealmSwift
 import Core
 import HomeModule
 import DetailGameModule
+import FavoriteGameModule
 
 final class Injection: NSObject {
   
@@ -63,6 +64,14 @@ final class Injection: NSObject {
     let mapper = DetailRealmTransformer()
     
     let repository = GetDeleteFavoriteGameRepository(localDataSource: locale, mapper: mapper)
+    return Interactor(repository: repository) as! U
+  }
+  
+  func provideFavoriteGameUsecase<U: UseCase>() -> U where U.Request == Any, U.Response == [FavoriteGameEntity] {
+    let locale = GetFavoriteGameLocalDataSource(realm: realm!)
+    let mapper = FavoriteRealmTransformer()
+    
+    let repository = GetListFavoriteGameRepository(localDataSource: locale, mapper: mapper)
     return Interactor(repository: repository) as! U
   }
 

@@ -11,10 +11,8 @@ import HomeModule
 
 struct HomeView: View {
   @ObservedObject var presenter: HomePresenter<Any, GameEntity, Interactor<Any, [GameEntity], GetPopularGameRepository<GetHomeLocalDataSource, GetPopularGameRemoteDataSource, GameTransformer>>,
-                                               Interactor<Any, Bool, GetAddFavoriteGameRepository<GetHomeLocalDataSource, HomeRealmTransformer>>,
-                                               Interactor<Any, Bool, GetDeleteFavoriteGameRepository<GetHomeLocalDataSource, HomeRealmTransformer>>
-                                               
-
+    Interactor<Any, Bool, GetAddFavoriteGameRepository<GetHomeLocalDataSource, HomeRealmTransformer>>,
+    Interactor<Any, Bool, GetDeleteFavoriteGameRepository<GetHomeLocalDataSource, HomeRealmTransformer>>
   >
   var body: some View {
     VStack(alignment: .leading) {
@@ -45,6 +43,11 @@ struct HomeView: View {
             let itemToAdd = GameEntityRealm()
             itemToAdd.id = item.id
             itemToAdd.title = item.title
+            itemToAdd.genres = item.genres
+            itemToAdd.rating = item.rating
+            itemToAdd.gameDescription = item.description
+            itemToAdd.backgroundImage = item.backgroundImage
+            itemToAdd.releasedDate = item.releasedDate
             presenter.addToFavorite(request: itemToAdd)
           })
           .listRowBackground(Color.clear) // Change Row Color
@@ -67,7 +70,7 @@ struct HomeView: View {
         .ignoresSafeArea()
     }
     .navigationBarItems(
-      leading: NavigationLink(destination: Text("favorite")) {
+      leading: NavigationLink(destination: HomeRouter().makeFavoriteGameView() ) {
         HStack {
           Image(systemName: "bookmark")
             .foregroundColor(.white)
