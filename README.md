@@ -1,6 +1,6 @@
 ## CI Status
 
-[![Codemagic build status](https://api.codemagic.io/apps/66c5ac022bde459ab440e669/ios-project-debug/status_badge.svg)](https://codemagic.io/app/66c5ac022bde459ab440e669/ios-project-debug/latest_build)
+[![Codemagic build status](https://api.codemagic.io/apps/66c5aac4a4371348579f8eab/cd-debug/status_badge.svg)](https://codemagic.io/app/66c5aac4a4371348579f8eab/build/66c5af108cd2e18572dcb8dd)
 
 ## Overview
 
