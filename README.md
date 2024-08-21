@@ -1,6 +1,6 @@
 ## CI Status
 
-[![Codemagic build status](https://api.codemagic.io/apps/66c5aac4a4371348579f8eab/cd-debug/status_badge.svg)](https://codemagic.io/app/66c5aac4a4371348579f8eab/build/66c5af108cd2e18572dcb8dd)
+[![Codemagic build status](https://api.codemagic.io/apps/66c5aac4a4371348579f8eab/cd-debug/status_badge.svg)](https://codemagic.io/app/66c5aac4a4371348579f8eab/build/latest_build)
 
 ## Overview
 
