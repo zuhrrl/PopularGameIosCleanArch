@@ -24,7 +24,10 @@ class HomeRouter {
     let deleteUsecase: Interactor<Any, Bool, GetDeleteFavoriteGameRepository<GetDetailGameLocalDataSource, DetailRealmTransformer>>
     = Injection.init().provideDeleteFavoriteUsecaseDetail()
     
-    let presenter = GetDetailGamePresenter(useCase: useCase, deleteUsecase: deleteUsecase)
+    let addFavoriteUsecase: Interactor<Any, Bool, GetAddFavoriteDetailModuleRepository<GetDetailGameLocalDataSource, DetailRealmTransformer>>
+    = Injection.init().provideAddFavoriteDetailUsecase()
+    
+    let presenter = GetDetailGamePresenter(useCase: useCase, deleteUsecase: deleteUsecase, addfavoriteUsecase: addFavoriteUsecase)
     
     return GameDetailView(gameId: gameId, presenter: presenter)
   }
@@ -33,7 +36,10 @@ class HomeRouter {
     let favoriteGameUsecase: Interactor<Any, [FavoriteGameEntity], GetListFavoriteGameRepository<GetFavoriteGameLocalDataSource, FavoriteRealmTransformer>>
     = Injection.init().provideFavoriteGameUsecase()
     
-    let presenter = GetFavoriteGamePresenter(favoriteGameUsecase: favoriteGameUsecase)
+    let deleteUsecase: Interactor<Any, Bool, GetDeleteFavoriteFavoriteModuleRepository<GetFavoriteGameLocalDataSource, FavoriteDeleteRealmTransformer>>
+    = Injection.init().provideFavoriteDeleteFavoriteUsecase()
+    
+    let presenter = GetFavoriteGamePresenter(favoriteGameUsecase: favoriteGameUsecase, deleteUsecase: deleteUsecase)
     return FavoriteGameView(presenter: presenter)
   }
   

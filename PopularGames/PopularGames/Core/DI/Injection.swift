@@ -67,6 +67,15 @@ final class Injection: NSObject {
     return Interactor(repository: repository) as! U
   }
   
+  func provideAddFavoriteDetailUsecase<U: UseCase>() -> U where U.Request == Any, U.Response == Bool {
+    let locale = GetDetailGameLocalDataSource(realm: realm!)
+    let mapper = DetailRealmTransformer()
+    
+    let repository = GetAddFavoriteDetailModuleRepository(localDataSource: locale, mapper: mapper)
+    return Interactor(repository: repository) as! U
+  }
+
+  
   func provideFavoriteGameUsecase<U: UseCase>() -> U where U.Request == Any, U.Response == [FavoriteGameEntity] {
     let locale = GetFavoriteGameLocalDataSource(realm: realm!)
     let mapper = FavoriteRealmTransformer()
@@ -74,5 +83,14 @@ final class Injection: NSObject {
     let repository = GetListFavoriteGameRepository(localDataSource: locale, mapper: mapper)
     return Interactor(repository: repository) as! U
   }
+  
+  func provideFavoriteDeleteFavoriteUsecase<U: UseCase>() -> U where U.Request == Any, U.Response == Bool {
+    let locale = GetFavoriteGameLocalDataSource(realm: realm!)
+    let mapper = FavoriteDeleteRealmTransformer()
+    
+    let repository = GetDeleteFavoriteFavoriteModuleRepository(localDataSource: locale, mapper: mapper)
+    return Interactor(repository: repository) as! U
+  }
+
 
 }

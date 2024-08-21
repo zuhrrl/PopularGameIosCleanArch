@@ -22,8 +22,6 @@ public class HomePresenter<Request, Response, Interactor: UseCase, AddFavoriteUs
   private let addFavoriteUsecase: AddFavoriteUsecase
   private let deleteFavoriteUsecase: DeleteFavoriteUsecase
   
-  
-  
   @Published public var list: [Response] = []
   @Published public var errorMessage: String = ""
   @Published public var isLoading: Bool = false

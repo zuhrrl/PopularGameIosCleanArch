@@ -10,24 +10,27 @@ import Combine
 import Core
 import SwiftUI
 
-public class GetFavoriteGamePresenter<Request, Response, Interactor: UseCase>: Presenter, ObservableObject where Interactor.Request == Request, Interactor.Response == Response {
+public class GetFavoriteGamePresenter<Request, Response, Interactor: UseCase, DeleteFavoriteGameUsecase: UseCase>: Presenter, ObservableObject where Interactor.Request == Request, Interactor.Response == Response {
+  
   
   public typealias DetailRequest = Request
-  public typealias DeleteFavoriteRequest = Any
+  public typealias DeleteFavoriteRequest = GameEntityRealm
   public typealias AddFavoriteRequest = Any
   public typealias Detail = Any
   
   private var cancellables: Set<AnyCancellable> = []
   private let favoriteGameUsecase: Interactor
-
+  private let deleteFavoriteGameUsecase: DeleteFavoriteGameUsecase
+  
   @Published public var list: Response?
   @Published public var errorMessage: String = ""
   @Published public var isLoading: Bool = false
   @Published public var isError: Bool = false
   @Published public var selectedGame: Int? = nil
   
-  public init(favoriteGameUsecase: Interactor) {
+  public init(favoriteGameUsecase: Interactor, deleteUsecase: DeleteFavoriteGameUsecase) {
     self.favoriteGameUsecase = favoriteGameUsecase
+    self.deleteFavoriteGameUsecase = deleteUsecase
   }
   
   public func getList(request: Request?) {
@@ -54,35 +57,42 @@ public class GetFavoriteGamePresenter<Request, Response, Interactor: UseCase>: P
   }
   
   public func deleteFavorite(request: DeleteFavoriteRequest?) {
-//    self.deleteUsecase.execute(request: request as! DeleteFavoriteUsecase.Request)
-//      .receive(on: RunLoop.main)
-//      .sink(receiveCompletion: { completion in
-//        switch completion {
-//        case .failure(let error):
-//          self.errorMessage = error.localizedDescription
-//          self.isError = true
-//          self.isLoading = false
-//        case .finished:
-//          self.isLoading = false
-//        }
-//      }, receiveValue: { _ in })
-//      .store(in: &cancellables)
+    isLoading = true
+    let items = self.list as! [FavoriteGameEntity]
+    let index = items.firstIndex(where: {
+      let item = $0 as! FavoriteGameEntity
+      return item.id == request?.id})
+    debugPrint("FOUND GAME INDEX: \(String(describing: index))")
+    
+    var foundItem = items[index!] as! FavoriteGameEntity
+    if foundItem.isFavorite {
+      debugPrint("TRYING TO DELETE GAME: \(foundItem.id)")
+      
+      self.deleteFavoriteGameUsecase.execute(request: request as! DeleteFavoriteGameUsecase.Request)
+        .receive(on: RunLoop.main)
+        .sink(receiveCompletion: { completion in
+          switch completion {
+          case .failure(let error):
+            self.errorMessage = error.localizedDescription
+            self.isError = true
+            self.isLoading = false
+          case .finished:
+            self.isLoading = false
+          }
+        }, receiveValue: { _ in })
+        .store(in: &cancellables)
+      
+      var updateList = self.list as! [FavoriteGameEntity]
+      updateList.remove(at: index!)
+      self.list = updateList as! Response
+      isLoading = false
+      return
+    }
+    
+    
   }
   
   public func addToFavorite(request: AddFavoriteRequest?) {
-//    isLoading = true
-//    var item = self.detail as! FavoriteGameEntity
-//    if item.isFavorite {
-//      debugPrint("TRYING TO DELETE GAME: \(item.id)")
-//      self.deleteFavorite(request: request)
-//      item.isFavorite = false
-//      self.detail = item as! Response
-//      isLoading = false
-//      return
-//    }
-//    
-//    item.isFavorite = true
-//    self.detail = item as! Response
-//    isLoading = false
+    fatalError("")
   }
 }

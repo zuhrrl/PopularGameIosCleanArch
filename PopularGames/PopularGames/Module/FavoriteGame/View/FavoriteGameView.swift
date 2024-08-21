@@ -10,7 +10,8 @@ import Core
 import FavoriteGameModule
 
 struct FavoriteGameView: View {
-  @ObservedObject var presenter: GetFavoriteGamePresenter<Any, [FavoriteGameEntity], Interactor<Any, [FavoriteGameEntity], GetListFavoriteGameRepository<GetFavoriteGameLocalDataSource, FavoriteRealmTransformer>>>
+  @ObservedObject var presenter: GetFavoriteGamePresenter<Any, [FavoriteGameEntity], Interactor<Any, [FavoriteGameEntity], GetListFavoriteGameRepository<GetFavoriteGameLocalDataSource, FavoriteRealmTransformer>>,Interactor<Any, Bool, GetDeleteFavoriteFavoriteModuleRepository<GetFavoriteGameLocalDataSource, FavoriteDeleteRealmTransformer>>
+  >
   
   var body: some View {
     VStack(alignment: .leading) {
@@ -60,9 +61,7 @@ struct FavoriteGameView: View {
           Spacer()
         }
         Spacer()
-      }
-      
-      else {
+      } else {
         Text("Favorite Games")
           .font(.headline)
           .padding(EdgeInsets(top: 0.0, leading: 35.0, bottom: 0, trailing: 0)
@@ -73,7 +72,9 @@ struct FavoriteGameView: View {
         List(presenter.list!, id: \.id) {  item in
           ItemFavoriteGame(game: item, onTap: {
             debugPrint("TRYING TO DELETE FAVORITE GAME FROM FAVORITE SCREEN with ID \(item.id)")
-            //            presenter.deleteFavoriteGame(item: item)
+            let itemToDelete = GameEntityRealm()
+            itemToDelete.id = item.id
+            presenter.deleteFavorite(request: itemToDelete)
           })
           .listRowBackground(Color.clear) // Change Row Color
           .listRowSeparator(.hidden)

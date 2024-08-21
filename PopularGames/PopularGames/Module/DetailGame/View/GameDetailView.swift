@@ -12,7 +12,7 @@ import DetailGameModule
 struct GameDetailView: View {
   let gameId: Int
   @StateObject var presenter: GetDetailGamePresenter<Any, DetailGameEntity, Interactor<Any, DetailGameEntity, GetDetailGameRepository<GetDetailGameLocalDataSource, GetDetailGameRemoteDataSource, DetailGameTransformer>>,
-      Interactor<Any, Bool, GetDeleteFavoriteGameRepository<GetDetailGameLocalDataSource, DetailRealmTransformer>>
+      Interactor<Any, Bool, GetDeleteFavoriteGameRepository<GetDetailGameLocalDataSource, DetailRealmTransformer>>,Interactor<Any, Bool, GetAddFavoriteDetailModuleRepository<GetDetailGameLocalDataSource, DetailRealmTransformer>>
   >
   var body: some View {
     let game = presenter.detail

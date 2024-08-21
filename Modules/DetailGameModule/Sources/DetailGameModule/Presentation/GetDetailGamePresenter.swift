@@ -10,7 +10,7 @@ import Combine
 import Core
 import SwiftUI
 
-public class GetDetailGamePresenter<Request, Response, Interactor: UseCase, DeleteFavoriteUsecase: UseCase>: Presenter, ObservableObject where Interactor.Request == Request, Interactor.Response == Response {
+public class GetDetailGamePresenter<Request, Response, Interactor: UseCase, DeleteFavoriteUsecase: UseCase, AddFavoriteUsecase: UseCase>: Presenter, ObservableObject where Interactor.Request == Request, Interactor.Response == Response {
   
   public typealias DetailRequest = Request
   public typealias DeleteFavoriteRequest = Any
@@ -20,17 +20,18 @@ public class GetDetailGamePresenter<Request, Response, Interactor: UseCase, Dele
   private var cancellables: Set<AnyCancellable> = []
   private let _useCase: Interactor
   private let deleteUsecase: DeleteFavoriteUsecase
+  private let addfavoriteUsecase: AddFavoriteUsecase
 
-  
   @Published public var detail: Response?
   @Published public var errorMessage: String = ""
   @Published public var isLoading: Bool = false
   @Published public var isError: Bool = false
   @Published public var selectedGame: Int? = nil
   
-  public init(useCase: Interactor, deleteUsecase: DeleteFavoriteUsecase) {
+  public init(useCase: Interactor, deleteUsecase: DeleteFavoriteUsecase, addfavoriteUsecase: AddFavoriteUsecase) {
     _useCase = useCase
     self.deleteUsecase = deleteUsecase
+    self.addfavoriteUsecase = addfavoriteUsecase
   }
   
   public func getList(request: Request?) {
@@ -84,6 +85,20 @@ public class GetDetailGamePresenter<Request, Response, Interactor: UseCase, Dele
       isLoading = false
       return
     }
+    
+    self.addfavoriteUsecase.execute(request: request as! AddFavoriteUsecase.Request)
+      .receive(on: RunLoop.main)
+      .sink(receiveCompletion: { completion in
+        switch completion {
+        case .failure(let error):
+          self.errorMessage = error.localizedDescription
+          self.isError = true
+          self.isLoading = false
+        case .finished:
+          self.isLoading = false
+        }
+      }, receiveValue: { _ in })
+      .store(in: &cancellables)
     
     item.isFavorite = true
     self.detail = item as! Response
