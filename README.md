@@ -6,6 +6,13 @@
 
 This project is a native iOS application built using SwiftUI, following a clean architecture with the VIPER pattern. The app utilizes Alamofire for networking and Realm for local database management. It has been modularized to enhance maintainability and scalability.
 
+## Module in this project
+
+**Core** : [https://github.com/zuhrrl/Core](https://github.com/zuhrrl/Core)
+**HomeModule**: [https://github.com/zuhrrl/PopularGameIosCleanArch/tree/main/Modules/HomeModule](https://github.com/zuhrrl/PopularGameIosCleanArch/tree/main/Modules/HomeModule)
+**DetailGameModule**: [https://github.com/zuhrrl/PopularGameIosCleanArch/tree/main/Modules/HomeModule](https://github.com/zuhrrl/PopularGameIosCleanArch/tree/main/Modules/DetailGameModule)
+**FavoriteGameModule**: [https://github.com/zuhrrl/PopularGameIosCleanArch/tree/main/Modules/HomeModule](https://github.com/zuhrrl/PopularGameIosCleanArch/tree/main/Modules/FavoriteGameModule)
+
 ## Features
 - SwiftUI for UI Design
 - VIPER Architecture
