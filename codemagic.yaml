@@ -12,6 +12,7 @@ workflows:
         script: xcrun xctrace list devices
       - name: Run tests
         script: |
+          cd PopularGames &&
           xcodebuild \
           -project "$XCODE_PROJECT" \
           -scheme "$XCODE_SCHEME" \
