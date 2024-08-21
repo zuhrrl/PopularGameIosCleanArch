@@ -1,12 +1,15 @@
 workflows:
   cd-debug: # workflow ID
     name: iOS debug # workflow name
+    triggering:
+      events: # List the events that trigger builds
+        - push
     environment:
       xcode: latest
       cocoapods: default
       vars:
-          XCODE_PROJECT: "PopularGames.xcodeproj" # Isikan nama project Anda.
-          XCODE_SCHEME: "PopularGames" # Isikan nama scheme project Anda.
+        XCODE_PROJECT: "PopularGames.xcodeproj" # Isikan nama project Anda.
+        XCODE_SCHEME: "PopularGames" # Isikan nama scheme project Anda.
     scripts:
       - name: fetch device list
         script: xcrun xctrace list devices
