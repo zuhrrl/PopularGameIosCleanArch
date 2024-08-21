@@ -11,7 +11,9 @@ This project is a native iOS application built using SwiftUI, following a clean 
 **Core** : [https://github.com/zuhrrl/Core](https://github.com/zuhrrl/Core)
 
 **HomeModule**: [https://github.com/zuhrrl/PopularGameIosCleanArch/tree/main/Modules/HomeModule](https://github.com/zuhrrl/PopularGameIosCleanArch/tree/main/Modules/HomeModule)
+
 **DetailGameModule**: [https://github.com/zuhrrl/PopularGameIosCleanArch/tree/main/Modules/HomeModule](https://github.com/zuhrrl/PopularGameIosCleanArch/tree/main/Modules/DetailGameModule)
+
 **FavoriteGameModule**: [https://github.com/zuhrrl/PopularGameIosCleanArch/tree/main/Modules/HomeModule](https://github.com/zuhrrl/PopularGameIosCleanArch/tree/main/Modules/FavoriteGameModule)
 
 ## Features
