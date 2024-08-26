@@ -10,106 +10,112 @@ import Combine
 import Core
 import SwiftUI
 
-public class HomePresenter<Request, Response, Interactor: UseCase, AddFavoriteUsecase: UseCase, DeleteFavoriteUsecase: UseCase>: Presenter, ObservableObject where Interactor.Request == Request, Interactor.Response == [Response] {
-  
+public class HomePresenter<
+  Request,
+  Response,
+  GetFavoriteUseCase: UseCase,
+  AddFavoriteUseCase: UseCase,
+  DeleteFavoriteUseCase: UseCase
+>: Presenter, ObservableObject where GetFavoriteUseCase.Request == Request, GetFavoriteUseCase.Response == [Response] {
+    
   public typealias DetailRequest = Request
   public typealias DeleteFavoriteRequest = Any
   public typealias AddFavoriteRequest = GameEntityRealm
   public typealias Detail = Any
-  
-  private var cancellables: Set<AnyCancellable> = []
-  private let _useCase: Interactor
-  private let addFavoriteUsecase: AddFavoriteUsecase
-  private let deleteFavoriteUsecase: DeleteFavoriteUsecase
   
   @Published public var list: [Response] = []
   @Published public var errorMessage: String = ""
   @Published public var isLoading: Bool = false
   @Published public var isError: Bool = false
   @Published public var selectedGame: Int? = nil
+    
+  private var cancellables = Set<AnyCancellable>()
+  private let getFavoriteUseCase: GetFavoriteUseCase
+  private let addFavoriteUseCase: AddFavoriteUseCase
+  private let deleteFavoriteUseCase: DeleteFavoriteUseCase
   
-  public init(useCase: Interactor, addFavoriteUsecase: AddFavoriteUsecase, deleteFavoriteUsecase: DeleteFavoriteUsecase) {
-    _useCase = useCase
-    self.addFavoriteUsecase = addFavoriteUsecase
-    self.deleteFavoriteUsecase = deleteFavoriteUsecase
+
+  public init(
+    getFavoriteUseCase: GetFavoriteUseCase,
+    addFavoriteUseCase: AddFavoriteUseCase,
+    deleteFavoriteUseCase: DeleteFavoriteUseCase
+  ) {
+    self.getFavoriteUseCase = getFavoriteUseCase
+    self.addFavoriteUseCase = addFavoriteUseCase
+    self.deleteFavoriteUseCase = deleteFavoriteUseCase
   }
-  
   
   public func getList(request: Request?) {
     isLoading = true
-    _useCase.execute(request: request)
+    getFavoriteUseCase.execute(request: request)
       .receive(on: RunLoop.main)
-      .sink(receiveCompletion: { completion in
-        switch completion {
-        case .failure(let error):
-          self.errorMessage = error.localizedDescription
-          self.isError = true
+      .sink(
+        receiveCompletion: { [weak self] completion in
+          guard let self = self else { return }
+          if case .failure(let error) = completion {
+            self.errorMessage = error.localizedDescription
+            self.isError = true
+          }
           self.isLoading = false
-        case .finished:
-          self.isLoading = false
+        },
+        receiveValue: { [weak self] list in
+          self?.list = list
         }
-      }, receiveValue: { list in
-        self.list = list
-      })
-      .store(in: &cancellables)
+      ).store(in: &cancellables)
   }
-  
   public func getDetail(request: DetailRequest?) -> Detail {
-    return []
+    return [] // This method seems incomplete. Ensure proper implementation.
   }
   
   public func deleteFavorite(request: DeleteFavoriteRequest?) {
-    self.deleteFavoriteUsecase.execute(request: request as! DeleteFavoriteUsecase.Request)
-      .receive(on: RunLoop.main)
-      .sink(receiveCompletion: { completion in
-        switch completion {
-        case .failure(let error):
-          self.errorMessage = error.localizedDescription
-          self.isError = true
-          self.isLoading = false
-        case .finished:
-          self.isLoading = false
-        }
-      }, receiveValue: { _ in })
-      .store(in: &cancellables)
-  }
-  
-  public func addToFavorite(request: AddFavoriteRequest?) {
-    isLoading = true
-    let index = self.list.firstIndex(where: {
-      let item = $0 as! GameEntity
-      return item.id == request?.id})
-    debugPrint("FOUND GAME INDEX: \(String(describing: index))")
-    
-    var foundItem = self.list[index!] as! GameEntity
-    if foundItem.isFavorite {
-      debugPrint("TRYING TO DELETE GAME: \(foundItem.id)")
-      deleteFavorite(request: request)
-      var updateList = self.list as! [GameEntity]
-      updateList[index!].isFavorite = false
-      self.list = updateList as! [Response]
-      isLoading = false
+    guard let request = request as? DeleteFavoriteUseCase.Request else {
+      debugPrint("Invalid delete request")
       return
     }
     
-    self.addFavoriteUsecase.execute(request: request as! AddFavoriteUsecase.Request)
+    deleteFavoriteUseCase.execute(request: request)
       .receive(on: RunLoop.main)
-      .sink(receiveCompletion: { completion in
-        switch completion {
-        case .failure(let error):
-          self.errorMessage = error.localizedDescription
-          self.isError = true
+      .sink(
+        receiveCompletion: { [weak self] completion in
+          guard let self = self else { return }
+          if case .failure(let error) = completion {
+            self.errorMessage = error.localizedDescription
+            self.isError = true
+          }
           self.isLoading = false
-        case .finished:
-          self.isLoading = false
-        }
-      }, receiveValue: { _ in })
-      .store(in: &cancellables)
+        },
+        receiveValue: { _ in }
+      ).store(in: &cancellables)
+  }
+  
+  public func addToFavorite(request: AddFavoriteRequest?) {
+    guard let request = request,
+          let index = list.firstIndex(where: { ($0 as? GameEntity)?.id == request.id }),
+          var foundItem = list[index] as? GameEntity else {
+      debugPrint("Game not found or invalid request")
+      return
+    }
     
-    var updateList = self.list as! [GameEntity]
-    updateList[index!].isFavorite = true
-    self.list = updateList as! [Response]
-    isLoading = false
+    foundItem.isFavorite.toggle()
+    list[index] = foundItem as! Response
+    
+    if foundItem.isFavorite {
+      addFavoriteUseCase.execute(request: request as! AddFavoriteUseCase.Request)
+        .receive(on: RunLoop.main)
+        .sink(
+          receiveCompletion: { [weak self] completion in
+            guard let self = self else { return }
+            if case .failure(let error) = completion {
+              self.errorMessage = error.localizedDescription
+              self.isError = true
+            }
+            self.isLoading = false
+          },
+          receiveValue: { _ in }
+        ).store(in: &cancellables)
+    } else {
+      deleteFavorite(request: request)
+    }
   }
   
 }
