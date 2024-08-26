@@ -11,7 +11,7 @@ import HomeModule
 
 let injection = Injection()
 
-let homeUsecase: Interactor<Any, [GameEntity], GetPopularGameRepository<GetHomeLocalDataSource,GetPopularGameRemoteDataSource, GameTransformer>> = injection.provideHomeUsecase()
+let getFavoriteUseCase: Interactor<Any, [GameEntity], GetPopularGameRepository<GetHomeLocalDataSource,GetPopularGameRemoteDataSource, GameTransformer>> = injection.provideHomeUsecase()
 
 let addFavoriteUseCase: Interactor<Any, Bool, GetAddFavoriteGameRepository<GetHomeLocalDataSource, HomeRealmTransformer>> = injection.provideAddFavoriteUsecase()
 
@@ -19,7 +19,7 @@ let deleteFavoriteUsecase: Interactor<Any, Bool, GetDeleteFavoriteGameRepository
 
 @main
 struct PopularGamesApp: App {
-  let homePresenter = HomePresenter(useCase: homeUsecase, addFavoriteUsecase: addFavoriteUseCase, deleteFavoriteUsecase: deleteFavoriteUsecase)
+  let homePresenter = HomePresenter(getFavoriteUseCase: getFavoriteUseCase, addFavoriteUseCase: addFavoriteUseCase, deleteFavoriteUseCase: deleteFavoriteUsecase)
   var body: some Scene {
     WindowGroup {
       ContentView()
